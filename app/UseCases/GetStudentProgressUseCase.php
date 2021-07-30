@@ -15,7 +15,13 @@ class GetStudentProgressUseCase
     {
     }
 
-    /** @return \App\ViewModels\GetStudentProgress\LessonResponse[] */
+    /**
+     * This function processes the given data csv file and returns lessons with difficulty ratings and completion status' for a given $userId
+     *
+     * @param int $userId
+     *
+     * @return array of \App\ViewModels\GetStudentProgress\LessonResponse[]
+    */
     public function getAllLessons(int $userId): array
     {
         $previousRow = null;
@@ -114,9 +120,16 @@ class GetStudentProgressUseCase
         return $rowA->getSegmentId() === $rowB->getSegmentId();
     }
 
+    /**
+     * This function creates a representation of a lesson for display on the front end when given a row from the data csv
+     * @param LessonCsvRowInterface $row
+     * @param array $segments
+     *
+     * @return LessonResponse
+    */
     public static function createLessonResponseFromRow(LessonCsvRowInterface $row, array $segments): LessonResponse
     {
-        return new LessonResponse(
+        return new LessonResponse (
             id: $row->getLessonId(),
             name: $row->getLessonName(),
             difficulty: self::difficultyIntegerToCategory($row->getLessonDifficulty()),
@@ -124,9 +137,17 @@ class GetStudentProgressUseCase
         );
     }
 
+
+    /**
+     * This function creates a representation of a segment for display on the front end when given a row from the data csv
+     * @param LessonCsvRowInterface $row
+     * @param array $practiceRecords
+     *
+     * @return Segment
+     */
     public static function createSegmentFromRow(LessonCsvRowInterface $row, array $practiceRecords): Segment
     {
-        return new Segment(
+        return new Segment (
             id: $row->getSegmentId(),
             lessonId: $row->getSegmentLessonId(),
             name: $row->getSegmentName(),
@@ -137,9 +158,15 @@ class GetStudentProgressUseCase
         );
     }
 
+    /**
+     * This function creates a representation of a practice record for display on the front end when given a row from the data csv
+     * @param LessonCsvRowInterface $row
+     *
+     * @return PracticeRecord
+     */
     public static function createPracticeRecordFromRow(LessonCsvRowInterface $row): PracticeRecord
     {
-        return new PracticeRecord(
+        return new PracticeRecord (
             id: $row->getPracticeRecordId(),
             segmentId: $row->getPracticeRecordSegmentId(),
             userId: $row->getPracticeRecordUserId(),
