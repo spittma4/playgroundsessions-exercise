@@ -1,0 +1,7 @@
+Playground Sessions Code Exercise Notes
+
+
+Baseline Tests (no changes made to codebase):
+1. size: 4.1mb, time: 3.67s
+2. size: 4.1mb, time: 2.82s
+3. size: 4.1mb, time: 2.67s
