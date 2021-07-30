@@ -120,7 +120,7 @@ class GetStudentProgressUseCase
             id: $row->getLessonId(),
             name: $row->getLessonName(),
             description: $row->getLessonDescription(),
-            difficulty: $row->getLessonDifficulty(),
+            difficulty: self::difficultyIntegerToCategory($row->getLessonDifficulty()),
             createdAt: $row->getLessonCreatedAt(),
             updatedAt: $row->getLessonUpdatedAt(),
             isPublished: $row->isLessonPublished(),
@@ -153,5 +153,22 @@ class GetStudentProgressUseCase
             updatedAt: $row->getPracticeRecordUpdatedAt(),
             score: $row->getPracticeRecordScore(),
         );
+    }
+
+    /**
+     * This function converts an integer difficult rating into a string phrase representation
+     *
+     * @param int $difficultyInteger
+     * @return string
+     */
+    public static function difficultyIntegerToCategory(int $difficultyInteger): string {
+
+        return match ($difficultyInteger) {
+            1,2,3 => 'Rookie',
+            4,5,6 => 'Intermediate',
+            7,8,9,10 => 'Advanced',
+            default => 'God Mode'
+        };
+
     }
 }

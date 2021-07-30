@@ -10,7 +10,7 @@ class LessonResponse implements \IteratorAggregate
         public int $id,
         public string $name,
         public string $description,
-        public int $difficulty,
+        public string $difficulty,
         public \DateTime $createdAt,
         public \DateTime $updatedAt,
         public bool $isPublished,
