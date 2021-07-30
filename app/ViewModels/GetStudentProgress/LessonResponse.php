@@ -9,12 +9,8 @@ class LessonResponse implements \IteratorAggregate
     public function __construct(
         public int $id,
         public string $name,
-        public string $description,
         public string $difficulty,
-        public \DateTime $createdAt,
-        public \DateTime $updatedAt,
-        public bool $isPublished,
-        public array $segments,
+        public bool $isComplete,
     )
     {
     }

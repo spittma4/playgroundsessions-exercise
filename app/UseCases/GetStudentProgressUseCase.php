@@ -119,12 +119,8 @@ class GetStudentProgressUseCase
         return new LessonResponse(
             id: $row->getLessonId(),
             name: $row->getLessonName(),
-            description: $row->getLessonDescription(),
             difficulty: self::difficultyIntegerToCategory($row->getLessonDifficulty()),
-            createdAt: $row->getLessonCreatedAt(),
-            updatedAt: $row->getLessonUpdatedAt(),
-            isPublished: $row->isLessonPublished(),
-            segments: $segments,
+            isComplete: false
         );
     }
 
