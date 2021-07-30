@@ -13,6 +13,10 @@ class StudentProgressController extends Controller
     {
         $progress = (new GetStudentProgressUseCase(new LessonCsv()))
             ->getAllLessons($userId);
-        return response()->json((array)$progress);
+        $response = response()->json((array)$progress);
+
+        $response->setEncodingOptions( $response->getEncodingOptions() | JSON_PRETTY_PRINT );
+
+        return $response;
     }
 }
