@@ -31,8 +31,6 @@ class GetStudentProgressUseCase
 
         /** @var LessonResponse[] $lessons */
         $lessons = [];
-        $segments = [];
-        $practiceRecords = [];
 
         while ($currentRow = $this->csv->getNextRow()) {
             $isForCurrentUser = $currentRow->getPracticeRecordUserId() === $userId;
@@ -72,8 +70,7 @@ class GetStudentProgressUseCase
             else {
 
                 // Check if we're processing PracticeRecords for the same segment as $currentSegment
-                // TODO: Convert to use functions below made for this
-                if ($currentSegment->id !== $currentRow->getSegmentId()) {
+                if (!self::isRowForSegmentId($currentRow, $currentSegment->getSegmentId())) {
                     // Since we're done processing this segment, if the currentSegment doesn't have a passing score, update $currentLessons flag (1 failing segment fails the lesson)
                     if ($currentSegment->hasPassingPracticeRecord === false) {
                         $currentLesson->isComplete = false;
@@ -87,8 +84,7 @@ class GetStudentProgressUseCase
 
                 // Check if we're still processing PracticeRecords for the same lesson as $currentLesson
                 // If not, we need to push $currentLesson onto $lessons for the response
-                // TODO: Convert to use functions below made for this
-                if ($currentLesson->id !== $currentRow->getLessonId()) {
+                if (!self::isRowForLessonId($currentRow, $currentLesson->getLessonId())) {
                     $lessons[] = self::createLessonResponseFromCurrentLesson($currentLesson);
 
                     // Update the CurrentLesson to represent the new lesson this row identifies
@@ -140,16 +136,6 @@ class GetStudentProgressUseCase
     public static function isRowForSegmentId(LessonCsvRowInterface $row, int $segmentId): bool
     {
         return $row->getSegmentId() === $segmentId;
-    }
-
-    public static function isForSameLesson(LessonCsvRowInterface $rowA, LessonCsvRowInterface $rowB): bool
-    {
-        return $rowA->getLessonId() === $rowB->getLessonId();
-    }
-
-    public static function isForSameSegment(LessonCsvRowInterface $rowA, LessonCsvRowInterface $rowB): bool
-    {
-        return $rowA->getSegmentId() === $rowB->getSegmentId();
     }
 
     /**

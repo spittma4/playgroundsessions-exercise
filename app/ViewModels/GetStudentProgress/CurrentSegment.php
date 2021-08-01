@@ -13,4 +13,16 @@ class CurrentSegment
     )
     {
     }
+
+    public function getSegmentId(): int {
+        return $this->id;
+    }
+
+    public function getSegmentLessonId(): int {
+        return $this->lessonId;
+    }
+
+    public function getSegmentHasPassingRecordStatus(): bool {
+        return $this->hasPassingPracticeRecord;
+    }
 }
