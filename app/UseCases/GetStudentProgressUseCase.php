@@ -105,59 +105,7 @@ class GetStudentProgressUseCase
             if ($currentRow->getPracticeRecordScore() >= 80) {
                 $currentSegment->hasPassingPracticeRecord = true;
             }
-
-//            $isSameLesson = self::isRowForLessonId($currentRow, $previousRow->getLessonId());
-//            $isSameSegment = self::isRowForSegmentId($currentRow, $previousRow->getSegmentId());
-//
-//            $practiceRecords[] = self::createPracticeRecordFromRow($previousRow);
-//
-//            if (!$isSameSegment) {
-//                $segments[] = self::createSegmentFromRow($previousRow, $practiceRecords ?? []);
-//                $practiceRecords = [];
-//            }
-//
-//            if (!$isSameLesson) {
-//                $lessons[] = self::createLessonResponseFromRow($previousRow, $segments ?? []);
-//                $segments = [];
-//            }
-//
-//            $secondToLastRow = $previousRow ?? null;
-//            $previousRow = $currentRow;
-
         }
-
-//        $isZeroRows = is_null($previousRow);
-//
-//        if ($isZeroRows) {
-//            return [];
-//        }
-//
-//        $lastRow = $previousRow;
-//
-//        $isOnlyOneRow = is_null($secondToLastRow);
-//
-//        $lastPracticeRecord = self::createPracticeRecordFromRow($lastRow);
-//
-//        if ($isOnlyOneRow) {
-//            $segment = self::createSegmentFromRow($lastRow, [$lastPracticeRecord]);
-//            return [self::createLessonResponseFromRow($lastRow, [$segment])];
-//        }
-//
-//        $isTheLastRowForTheSameSegmentAsItsPreviousRow = self::isForSameSegment($lastRow, $secondToLastRow);
-//
-//        if ($isTheLastRowForTheSameSegmentAsItsPreviousRow) {
-//            $practiceRecords[] = $lastPracticeRecord;
-//            $segments[] = self::createSegmentFromRow($lastRow, $practiceRecords);
-//            $lessons[] = self::createLessonResponseFromRow($lastRow, $segments);
-//        } else {
-//            if (self::isForSameLesson($lastRow, $secondToLastRow)) {
-//                $segments[] = self::createSegmentFromRow($lastRow, [$lastPracticeRecord]);
-//                $lessons[] = self::createLessonResponseFromRow($lastRow, $segments);
-//            } else {
-//                $segment = self::createSegmentFromRow($lastRow, [$lastPracticeRecord]);
-//                $lessons[] = self::createLessonResponseFromRow($lastRow, [$segment]);
-//            }
-//        }
 
         return $lessons;
     }
@@ -197,7 +145,6 @@ class GetStudentProgressUseCase
             isComplete: $currentLesson->getLessonCompletionStatus(),
         );
     }
-
 
     /**
      * This function creates a representation of a segment for display on the front end when given a row from the data csv
