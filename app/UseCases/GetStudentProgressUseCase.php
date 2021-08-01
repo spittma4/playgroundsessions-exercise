@@ -11,8 +11,6 @@ use App\ViewModels\GetStudentProgress\LessonResponse;
 use App\ViewModels\GetStudentProgress\PracticeRecord;
 use App\ViewModels\GetStudentProgress\Segment;
 
-use Illuminate\Support\Facades\Log;
-
 class GetStudentProgressUseCase
 {
     public function __construct(private LessonCsvInterface $csv)
@@ -105,6 +103,30 @@ class GetStudentProgressUseCase
             if ($currentRow->getPracticeRecordScore() >= 80) {
                 $currentSegment->hasPassingPracticeRecord = true;
             }
+
+            $secondToLastRow = $previousRow ?? null;
+            $previousRow = $currentRow;
+        }
+
+        // Since $currentLesson records are pushed onto $lessons when a new lesson is detected, we always need to push the last known $currentRecord onto $lessons (if set)
+        if (isset($currentLesson)) {
+            $lessons[] = self::createLessonResponseFromCurrentLesson($currentLesson);
+        }
+
+        $isZeroRows = is_null($previousRow);
+        if ($isZeroRows) {
+            return [];
+        }
+
+        $lastRow = $previousRow;
+
+        $isOnlyOneRow = is_null($secondToLastRow);
+
+        $lastPracticeRecord = self::createPracticeRecordFromRow($lastRow);
+
+        if ($isOnlyOneRow) {
+            $segment = self::createSegmentFromRow($lastRow, [$lastPracticeRecord]);
+            return [self::createLessonResponseFromRow($lastRow, [$segment])];
         }
 
         return $lessons;
@@ -145,6 +167,18 @@ class GetStudentProgressUseCase
             isComplete: $currentLesson->getLessonCompletionStatus(),
         );
     }
+
+
+    public static function createLessonResponseFromRow(LessonCsvRowInterface $row, array $segments): LessonResponse
+    {
+        return new LessonResponse(
+            id: $row->getLessonId(),
+            name: $row->getLessonName(),
+            difficulty: self::difficultyIntegerToCategory($row->getLessonDifficulty()),
+            isComplete: false,
+        );
+    }
+
 
     /**
      * This function creates a representation of a segment for display on the front end when given a row from the data csv
