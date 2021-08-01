@@ -50,7 +50,7 @@ class GetStudentProgressUseCase
                 $currentLesson = new CurrentLesson(
                     id: $currentRow->getLessonId(),
                     name: $currentRow->getLessonName(),
-                    difficulty: self::difficultyIntegerToCategory($currentRow->getLessonDifficulty()),
+                    difficulty: $currentRow->getLessonDifficulty(),
                     // Assuming it was complete unless proven otherwise (makes processing easier)
                     isComplete: true
                 );
@@ -90,7 +90,7 @@ class GetStudentProgressUseCase
                     // Update the CurrentLesson to represent the new lesson this row identifies
                     $currentLesson->id = $currentRow->getLessonId();
                     $currentLesson->name = $currentRow->getLessonName();
-                    $currentLesson->difficulty = self::difficultyIntegerToCategory($currentRow->getLessonDifficulty());
+                    $currentLesson->difficulty = $currentRow->getLessonDifficulty();
                     $currentLesson->isComplete = true;
                 }
             }
@@ -160,7 +160,7 @@ class GetStudentProgressUseCase
         return new LessonResponse(
             id: $row->getLessonId(),
             name: $row->getLessonName(),
-            difficulty: self::difficultyIntegerToCategory($row->getLessonDifficulty()),
+            difficulty: $row->getLessonDifficulty(),
             isComplete: false,
         );
     }
@@ -204,22 +204,5 @@ class GetStudentProgressUseCase
             updatedAt: $row->getPracticeRecordUpdatedAt(),
             score: $row->getPracticeRecordScore(),
         );
-    }
-
-    /**
-     * This function converts an integer difficult rating into a string phrase representation
-     *
-     * @param int $difficultyInteger
-     * @return string
-     */
-    public static function difficultyIntegerToCategory(int $difficultyInteger): string {
-
-        return match ($difficultyInteger) {
-            1,2,3 => 'Rookie',
-            4,5,6 => 'Intermediate',
-            7,8,9,10 => 'Advanced',
-            default => 'God Mode'
-        };
-
     }
 }

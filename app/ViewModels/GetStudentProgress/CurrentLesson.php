@@ -10,7 +10,7 @@ class CurrentLesson
     public function __construct(
         public int $id,
         public string $name,
-        public string $difficulty,
+        public int $difficulty,
         public bool $isComplete
     )
     {
@@ -24,7 +24,7 @@ class CurrentLesson
         return $this->name;
     }
 
-    public function getLessonDifficulty(): string {
+    public function getLessonDifficulty(): int {
         return $this->difficulty;
     }
 
