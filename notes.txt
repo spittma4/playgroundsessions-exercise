@@ -5,3 +5,9 @@ Baseline Tests (no changes made to codebase):
 1. size: 4.1mb, time: 3.67s
 2. size: 4.1mb, time: 2.82s
 3. size: 4.1mb, time: 2.67s
+
+
+Tests after Refactoring (as of commit 6f0cd9d8552addd80002b0c5ff2a09edb99f3b11)
+1. size: 32kb, time: 1.22s
+2. size: 4.1mb, time: 1.17s
+3. size: 4.1mb, time: 1.21s
